@@ -36,6 +36,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
 function auth (req, res, next) {
   console.log(req.user);
 
@@ -50,7 +53,7 @@ function auth (req, res, next) {
 }
 
 
-//app.use(auth);
+app.use(auth);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -61,8 +64,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/dishes', dishRouter);
 app.use('/promotions', promoRouter);
 app.use('/leaders', leaderRouter);

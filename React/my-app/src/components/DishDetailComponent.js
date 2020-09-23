@@ -20,7 +20,7 @@ function  RenderDish({dish}) {
     );
 }
 
-function  RenderComments({comments}){
+function  RenderComments({comments, addComment, dishId}){
         
     if(comments){
         const renderList = comments.map(comment => {
@@ -42,6 +42,7 @@ function  RenderComments({comments}){
             <div>
                 <h4>Comments</h4>
                     {renderList}
+                    <CommentForm dishId={dishId} addComment={addComment}/>
             </div>
         )
 
@@ -61,7 +62,7 @@ function formatDate(date){
     return `${dateStr.getDate()} ${month[dateStr.getMonth()]}, ${dateStr.getFullYear()}`;
 }
 
-class DishDetail extends Component{
+class CommentForm extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -69,18 +70,8 @@ class DishDetail extends Component{
         }
         this.toggleModal = this.toggleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.CommentForm = this.CommentForm.bind(this);
     }
-    CommentForm(){
-        return(
-            <div>
-                <Button color="primary" onClick={this.toggleModal}>
-                    <span className="fa fa-info fa-lg"></span>
-                    Submit Comment
-                </Button>
-            </div>
-        );
-    }
+
     toggleModal(){
         this.setState({
             isModalOpen: !this.state.isModalOpen
@@ -90,162 +81,166 @@ class DishDetail extends Component{
     handleSubmit(values){
         //e.preventDefault();
         this.toggleModal();
-        alert(`Current States: ${JSON.stringify(values)}`);
-    }
-
+        this.props.addComment(this.props.dishId, values.rating, values.name, values.comment);
+    }   
     render() {
         const required = (val) => val && val.length;
         const maxLength = (len) => (val) => !(val) || (val.length <= len);
         const minLength = (len) => (val) => val && (val.length >= len);
-        if(this.props.dish != null)
-            return(
-                <div className="container">
-                        <div className="row">
-                            <Breadcrumb>
-                                <BreadcrumbItem>
-                                    <Link to="/menu">Menu</Link>
-                                </BreadcrumbItem>
-                                <BreadcrumbItem active>
-                                    {this.props.dish.name}
-                                </BreadcrumbItem>
-                            </Breadcrumb>
-                            <div className="col-12">
-                                <h3>{this.props.dish.name}</h3>
-                                <hr />
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-12 col-md-5 m-1">
-                            <RenderDish dish={this.props.dish} />
-                            </div>
-                            <div className="col-12 col-md-5 m-1">
-                                <RenderComments comments={this.props.comments} />
-                                {this.CommentForm()}
-                                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-                                    <ModalHeader toggle={this.toggleModal}>
-                                        Submit Comment
-                                    </ModalHeader>
-                                    <ModalBody>
-                                        <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
-                                            <Row className="form-group ml-2 mr-2">
-                                                <Label htmlFor="username">
-                                                    Rating
-                                                </Label>
-                                            
-                                                <Control.select 
-                                                    model=".rating" 
-                                                    name="rating" 
-                                                    id="rating"
-                                                    className="form-control custom-select"
-                                                    placeholder="Select Rating"
-                                                    validators={{
-                                                        required
-                                                    }}
-                                                >       
-                                                        <option selected>Open this select menu</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                </Control.select>
-                                                
-                                                <Errors
-                                                    className="text-danger"
-                                                    model=".rating"
-                                                    show="touched"
-                                                    messages={{
-                                                        required: "Required"
-                                                    }}
-                                                />
-                                            </Row>
-                                            <Row className="form-group ml-2 mr-2">
-                                                <Label htmlFor="password">
-                                                    Your Name
-                                                </Label>
-                                                <Control.text
-                                                model=".name"
-                                                id="name"
-                                                name="name"
-                                                placeholder="Your Name"
-                                                className="form-control"
-                                                validators={{
-                                                    required,
-                                                    minLength: minLength(3),
-                                                    maxLength: maxLength(15)
-                                                }}
-                                                />
-                                                <Errors
-                                                    className="text-danger"
-                                                    model=".name"
-                                                    show="touched"
-                                                    messages={{
-                                                        required: "Required",
-                                                        minLength: "Must be greater than 2 characters",
-                                                        maxLength: "Must be 15 characters or less"
-                                                    }}
-                                                />
-                                            </Row>
-                                            <Row className="form-group ml-2 mr-2">
-                                                <Label htmlFor="comment">
-                                                    Comment
-                                                </Label>
-                                                <Control.textarea
-                                                model=".comment" 
-                                                name="comment" 
-                                                id="comment" 
-                                                rows="6"
-                                                placeholder="Your comment goes here"
-                                                className="form-control"
-                                                validators={{
-                                                    required,
-                                                    minLength: minLength(5),
-                                                    maxLength: maxLength(150)
-                                                }}
-                                                />
-                                                <Errors
-                                                    className="text-danger"
-                                                    model=".comment"
-                                                    show="touched"
-                                                    messages={{
-                                                        required: "Required",
-                                                        minLength: "Must be greater than 5 characters",
-                                                        maxLength: "Must be 150 characters or less"
-                                                    }}
-                                                />
-                                            </Row>
-                                            <Row className="form-group ml-2 mr-2">
-                                                <Button 
-                                                type="submit"
-                                                value="submit"
-                                                color="primary"
-                                                >
-                                                    Login
-                                                </Button>
-                                            </Row>
-                                        </LocalForm>
-                                    </ModalBody>
-                                </Modal>
-                            </div>
-                        </div>
-                </div>
-                
-            );
-        else
-            return(
-                <div></div>
-            );
+        return(
+            <div>
+                <Button color="primary" onClick={this.toggleModal}>
+                    <span className="fa fa-info fa-lg"></span>
+                    Submit Comment
+                </Button>
+                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+                <ModalHeader toggle={this.toggleModal}>
+                    Submit Comment
+                </ModalHeader>
+                <ModalBody>
+                    <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+                        <Row className="form-group ml-2 mr-2">
+                            <Label htmlFor="username">
+                                Rating
+                            </Label>
+                        
+                            <Control.select 
+                                model=".rating" 
+                                name="rating" 
+                                id="rating"
+                                className="form-control custom-select"
+                                placeholder="Select Rating"
+                                validators={{
+                                    required
+                                }}
+                            >       
+                                    <option selected>Open this select menu</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                            </Control.select>
+                            
+                            <Errors
+                                className="text-danger"
+                                model=".rating"
+                                show="touched"
+                                messages={{
+                                    required: "Required"
+                                }}
+                            />
+                        </Row>
+                        <Row className="form-group ml-2 mr-2">
+                            <Label htmlFor="password">
+                                Your Name
+                            </Label>
+                            <Control.text
+                                model=".name"
+                                id="name"
+                                name="name"
+                                placeholder="Your Name"
+                                className="form-control"
+                                validators={{
+                                    required,
+                                    minLength: minLength(3),
+                                    maxLength: maxLength(15)
+                                }}
+                            />
+                            <Errors
+                                className="text-danger"
+                                model=".name"
+                                show="touched"
+                                messages={{
+                                    required: "Required",
+                                    minLength: "Must be greater than 2 characters",
+                                    maxLength: "Must be 15 characters or less"
+                                }}
+                            />
+                        </Row>
+                        <Row className="form-group ml-2 mr-2">
+                            <Label htmlFor="comment">
+                                Comment
+                            </Label>
+                            <Control.textarea
+                                model=".comment" 
+                                name="comment" 
+                                id="comment" 
+                                rows="6"
+                                placeholder="Your comment goes here"
+                                className="form-control"
+                                validators={{
+                                    required,
+                                    minLength: minLength(5),
+                                    maxLength: maxLength(150)
+                                }}
+                            />
+                            <Errors
+                                className="text-danger"
+                                model=".comment"
+                                show="touched"
+                                messages={{
+                                    required: "Required",
+                                    minLength: "Must be greater than 5 characters",
+                                    maxLength: "Must be 150 characters or less"
+                                }}
+                            />
+                        </Row>
+                        <Row className="form-group ml-2 mr-2">
+                            <Button 
+                                type="submit"
+                                value="submit"
+                                color="primary"
+                            >
+                                Login
+                            </Button>
+                        </Row>
+                    </LocalForm>
+                </ModalBody>
+            </Modal>
+        </div>
+        );
     }
 
 }
-    
 
-   
+function DishDetail (props){
     
-   
-   
-    
-
+    if(props.dish != null)
+        return(
+            <div className="container">
+                    <div className="row">
+                        <Breadcrumb>
+                            <BreadcrumbItem>
+                                <Link to="/menu">Menu</Link>
+                            </BreadcrumbItem>
+                            <BreadcrumbItem active>
+                                {props.dish.name}
+                            </BreadcrumbItem>
+                        </Breadcrumb>
+                        <div className="col-12">
+                            <h3>{props.dish.name}</h3>
+                            <hr />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-12 col-md-5 m-1">
+                        <RenderDish dish={props.dish} />
+                        </div>
+                        <div className="col-12 col-md-5 m-1">
+                            <RenderComments comments={props.comments} 
+                                        addComment={props.addComment}
+                                        dishId={props.dish.id}/>
+                        </div>
+                    </div>
+            </div>
+            
+        );
+    else
+        return(
+            <div></div>
+        );
+}
     
 
 export default DishDetail;

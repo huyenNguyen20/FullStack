@@ -26,6 +26,16 @@ connect.then(db => {
 
 var app = express();
 
+// Secure traffic only
+app.all('*', (req, res, next) => {
+  if (req.secure) {
+    return next();
+  }
+  else {
+    res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
+  }
+});
+
 //app.use(cookieParser("12345-67890-09876-54321"));
 app.use(session({
   name: "session-id",

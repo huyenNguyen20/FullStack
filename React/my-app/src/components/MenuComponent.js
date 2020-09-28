@@ -6,6 +6,7 @@ import {Loading} from "./LoadingComponent";
 import { baseUrl } from '../shared/baseUrl';
 
 function RenderMenuItem ({dish}){
+    console.log("In RenderMenu Item: " + dish.id)
     return (
         <Card key={dish.id}>
             <Link to={`/menu/${dish.id}`}>
@@ -21,7 +22,8 @@ function RenderMenuItem ({dish}){
 
 
 const Menu = (props) => {
-    const menu = props.dishes.dishes.map(dish => {
+    const menu = props.dishes.map(dish => {
+        
         return (
             <div className="col-12 col-md-5 m-1" key={dish.id}>
                 <RenderMenuItem dish={dish} onClick={props.onClick} />

@@ -74,6 +74,42 @@ export const fetchPromos = () => dispatch => {
     .then(promos =>  dispatch(addPromos(promos)))
     .catch(error => dispatch(promosFailed(error.message)));
 }
+
+export const postComment = (dishId, rating, author, comment) => (dispatch) => {
+
+  const newComment = {
+      dishId: dishId,
+      rating: rating,
+      author: author,
+      comment: comment
+  };
+  newComment.date = new Date().toISOString();
+  
+  return fetch(baseUrl + 'comments', {
+      method: "POST",
+      body: JSON.stringify(newComment),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin"
+  })
+  .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        var error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+      }
+    },
+    error => {
+          throw error;
+    })
+  .then(response => response.json())
+  .then(response => dispatch(addIndividualComment(response)))
+  .catch(error =>  { console.log('post comments', error.message); alert('Your comment could not be posted\nError: '+error.message); });
+};
+
 export const dishesLoading = () => ({
     type: ActionTypes.DISHES_LOADING
 })
@@ -105,6 +141,11 @@ export const addDishes = dishes => ({
 export const addComments = comments => ({
     type: ActionTypes.ADD_COMMENTS,
     payload: comments
+});
+
+export const addIndividualComment = comment => ({
+  type: ActionTypes.ADD_COMMENT,
+  payload: comment
 });
 
 export const addPromos = (promos) => ({

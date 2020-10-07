@@ -15,6 +15,10 @@ var User = new Schema({
         type: Boolean,
         default: false
     },
+    favorite: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Favorites"
+    },
     facebookId: String,
 });
 

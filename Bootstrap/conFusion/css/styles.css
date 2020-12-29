@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 .header{
     background-color: hsl(260, 83%, 73%);
     color: floralwhite;
@@ -17,6 +21,20 @@
     background-color: hsl(261, 58%, 87%);
 }
 
+.content{
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
+}
+
+
 body{
     padding: 50px 0 0 0;
+}
+
+a,
+a:link,
+a:hover{
+    text-decoration: none;
 }

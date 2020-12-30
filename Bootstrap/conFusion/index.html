@@ -148,71 +148,12 @@
                 <a class="carousel-control-next" href="#mycarousel" role="button" data-slide="next">
                     <span class="carousel-control-next-icon"></span>
                 </a>
-                <div class="btn-group" id="carouselButton">
-                    <button class="btn btn-danger btn-sm" id="carousel-pause">
-                        <span class="fa fa-pause"></span>
-                    </button>
-                    <button class="btn btn-danger btn-sm" id="carousel-play">
-                        <span class="fa fa-play"></span>
-                    </button>
-                </div>
+                <button class="btn btn-danger btn-sm"  id="carouselButton">
+                    <span class="fa fa-pause"></span>
+                </button>
             </div>
         </div>
-        <div class="row row-content">
-            <div class="col-12 col-md-3 order-sm-last">
-                <h3>Our Lipsmacking Culinary Creations</h3>
-            </div>
-            <div class="col-12 col-md-9 order-sm-first">
-                <div class="media">
-                    <img class="d-flex mr-3 img-thumbnail align-self-center" 
-                    src="img/uthappizza.png" />
-                    <div class="media-body">
-                        <h2 class="mt-0">
-                            Uthappizza
-                            <span class="badge badge-danger">HOT</span>
-                            <span class="badge badge-pill badge-secondary">$4.99</span>
-                        </h2>
-                        <p class="d-none d-sm-block">A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row row-content">
-            <div class="col-12 col-md-3">
-                <h3>This Month's Promotions</h3>
-            </div>
-            <div class="col-12 col-md-9">
-                <div class="media">
-                    <div class="media-body">
-                        <h2 class="mt-0">
-                            Weekend Grand Buffet
-                            <span class="badge badge-pill badge-danger">NEW</span>
-                        </h2>
-                       
-                        <p class="d-none d-sm-block">Featuring mouthwatering combinations with a choice of five different salads, six enticing appetizers, six main entrees and five choicest desserts. Free flowing bubbly and soft drinks. All for just $19.99 per person </p>
-                    </div>
-                    <img src="img/buffet.png" class="d-flex img-thumbnail ml-3 align-self-center"/>
-                </div>
-            </div>
-        </div>
-
-        <div class="row row-content align-items-center">
-            <div class="col-12 col-md-3 order-sm-last">
-                <h3>Meet our Culinary Specialists</h3>
-            </div>
-            <div class="col-12 col-md-9 order-sm-first">
-                <div class="media">
-                    <img src="img/alberto.png" class="d-flex img-thumbnail mr-3 align-self-center" alt="Alberto Somayya" />
-                    <div class="media-body">
-                        <h2 class="mt-0">Alberto Somayya</h2>
-                        <h4>Executive Chef</h4>
-                        <p class="d-none d-sm-block">Award winning three-star Michelin chef with wide International experience having worked closely with whos-who in the culinary world, he specializes in creating mouthwatering Indo-Italian fusion experiences. </p>
-                    </div>
-                </div> 
-            </div>
-        </div>
+        
         <div id="formModal" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg" role="content">
                 <div class="modal-content">
@@ -339,12 +280,17 @@
 <script >
     $(document).ready(function(){
         $("#mycarousel").carousel({interval: 2000})
-        $("#carousel-pause").click(function(){
-            $("#mycarousel").carousel("pause")
-        })
-        $("#carousel-play").click(function(){
-            $("#mycarousel").carousel("cycle")
-        })
+        $("#carouselButton").click(function(){
+            if($("#carouselButton").children("span").hasClass("fa-pause")){
+                $("#mycarousel").carousel("pause");
+                $("#carouselButton").children("span").removeClass("fa-pause");
+                $("#carouselButton").children("span").addClass("fa-play");
+            } else if ($("#carouselButton").children("span").hasClass("fa-play")){
+                $("#mycarousel").carousel("cycle");
+                $("#carouselButton").children("span").removeClass("fa-play");
+                $("#carouselButton").children("span").addClass("fa-pause");
+            }
+        });
     })
 </script>
 </html>

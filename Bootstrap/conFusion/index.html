@@ -90,16 +90,13 @@
                         class="btn btn-block btn-warning btn-small text-center" 
                         type="button"
                         href="#reservationForm"
-                        data-toggle="tooltip"
-                        data-html="true"
-                        title="Call us at <br/> <strong>01234567</strong>"
-                        data-placement="bottom"
+                        data-toggle="modal"
+                        data-target="#formModal"
                         >
                         Reserve Table
                     </a>
                 </div>
             </div>
-            
         </div>
     </header>
 
@@ -151,6 +148,14 @@
                 <a class="carousel-control-next" href="#mycarousel" role="button" data-slide="next">
                     <span class="carousel-control-next-icon"></span>
                 </a>
+                <div class="btn-group" id="carouselButton">
+                    <button class="btn btn-danger btn-sm" id="carousel-pause">
+                        <span class="fa fa-pause"></span>
+                    </button>
+                    <button class="btn btn-danger btn-sm" id="carousel-play">
+                        <span class="fa fa-play"></span>
+                    </button>
+                </div>
             </div>
         </div>
         <div class="row row-content">
@@ -208,57 +213,76 @@
                 </div> 
             </div>
         </div>
-        <div class="row row-content">
-            <div class="col-12 col-md-9 offset-md-3">
-                <div class="card" id="reservationForm">
-                    <h3 class="card-header bg-warning text-white">Reserve A Table</h3>
-                    <div class="card-body"> 
-                            <form>
-                                <div class="form-group row ml-2">
-                                    <label for="NoOfGuests" class="col-12 col-md-3 col-form-label">Number of Guests</label>
-                                    <div class="col-12 col-md-5 align-self-center">
-                                        <span class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="1" id="1">
-                                            <label class="form-check-label" for="1">1</label>
-                                        </span>
-                                        <span class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="2" id="2">
-                                            <label class="form-check-label" for="2">2</label>
-                                        </span>
-                                        <span class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="3" id="3">
-                                            <label class="form-check-label" for="3">3</label>
-                                        </span>
-                                        <span class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="4" id="4">
-                                            <label class="form-check-label" for="4">4</label>
-                                        </span>
-                                        <span class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="5" id="5">
-                                            <label class="form-check-label" for="5">5</label>
-                                        </span>
-                                        <span class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="6" id="6">
-                                            <label class="form-check-label" for="6">6</label>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="form-group row ml-2">
-                                    <label for="NoOfGuests" class="col-12 col-md-3 col-form-label">Date And Time</label>
-                                    <div class="col-12 col-md-5 align-self-center">
-                                        <div class="row">
-                                            <input type="date" class="form-control col-10 mb-2 col-sm-5 mr-1"id="date" placeholder="Date" />
-                                            <input type="time" class="form-control col-10 mb-2 col-sm-6" id="time" placeholder="Time" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row ml-2">
-                                    <div class="col-md-9 offset-md-3">
-                                        <Button class="btn btn-primary" type="submit">Reserve</Button>
-                                    </div>
-                                </div>
-                            </form>
+        <div id="formModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg" role="content">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Reserse A Table</h4>
+                        <button type="button" class="close" data-dismiss="modal"><span class="fa fa-times"></span></button>
                     </div>
+                </div>
+                <div class="card" id="reservationForm">
+                    <form>
+                        <div class="form-group row ml-2">
+                            <label for="NoOfGuests" class="col-12 col-md-3 col-form-label">Number of Guests</label>
+                            <div class="col-12 col-md-5 align-self-center">
+                                <span class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="1" id="1">
+                                    <label class="form-check-label" for="1">1</label>
+                                </span>
+                                <span class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="2" id="2">
+                                    <label class="form-check-label" for="2">2</label>
+                                </span>
+                                <span class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="3" id="3">
+                                    <label class="form-check-label" for="3">3</label>
+                                </span>
+                                <span class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="4" id="4">
+                                    <label class="form-check-label" for="4">4</label>
+                                </span>
+                                <span class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="5" id="5">
+                                    <label class="form-check-label" for="5">5</label>
+                                </span>
+                                <span class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="6" id="6">
+                                    <label class="form-check-label" for="6">6</label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row ml-2">
+                            <label for="section" class="col-12 col-md-3 col-form-label">Section</label>
+                            <div class="col-12 col-md-5 align-self-center">
+                                <div class="row">
+                                   <div class="btn-group btn-group-toggle" data-toggle="button">
+                                       <label class="btn btn-success active">
+                                           <input type="radio" name="options" id="non-smoking" checked> Non-Smoking
+                                       </label>
+                                       <label class="btn btn-warning">
+                                        <input type="radio" name="options" id="smoking"> Smoking
+                                        </label>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row ml-2">
+                            <label for="NoOfGuests" class="col-12 col-md-3 col-form-label">Date And Time</label>
+                            <div class="col-12 col-md-5 align-self-center">
+                                <div class="row">
+                                    <input type="date" class="form-control col-10 mb-2 col-sm-5 mr-1"id="date" placeholder="Date" />
+                                    <input type="time" class="form-control col-10 mb-2 col-sm-6" id="time" placeholder="Time" />
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="form-group row ml-2">
+                            <div class="col-md-9 offset-md-3">
+                                <Button class="btn btn-primary" type="submit">Reserve</Button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -312,10 +336,15 @@
 <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
 <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-<script>
+<script >
     $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
+        $("#mycarousel").carousel({interval: 2000})
+        $("#carousel-pause").click(function(){
+            $("#mycarousel").carousel("pause")
+        })
+        $("#carousel-play").click(function(){
+            $("#mycarousel").carousel("cycle")
+        })
     })
 </script>
-
 </html>
